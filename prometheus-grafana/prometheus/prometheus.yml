@@ -1,0 +1,34 @@
+global:
+  scrape_interval: 1s
+  external_labels:
+    monitor: 'devopsage-monitor'
+
+scrape_configs:
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+  - job_name: "orderer"
+    static_configs:
+      - targets: ["orderer.isfcr.com:9443"]
+  - job_name: "peer0_rr"
+    static_configs:
+      - targets: ["peer0.rr.isfcr.com:9444"]
+  - job_name: "peer1_rr"
+    static_configs:
+      - targets: ["peer1.rr.isfcr.com:9444"]
+  - job_name: "peer2_rr"
+    static_configs:
+      - targets: ["peer2.rr.isfcr.com:9444"]
+  - job_name: "peer0_ec"
+    static_configs:
+      - targets: ["peer0.ec.isfcr.com:9445"]
+  - job_name: "peer1_ec"
+    static_configs:
+      - targets: ["peer1.ec.isfcr.com:9445"]
+  - job_name: cadvisor
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['cadvisor:8080']
+  - job_name: node
+    static_configs:
+      - targets: ['node-exporter:9100']

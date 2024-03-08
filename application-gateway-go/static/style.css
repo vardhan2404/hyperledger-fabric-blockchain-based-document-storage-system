@@ -1,0 +1,155 @@
+*{
+    margin:1px;
+    padding: 0;
+    box-sizing: border-box;
+    color: white;
+    font-family: roboto, sans-serif;
+    text-align: center;
+    align-items: center;
+    
+}
+
+body
+{
+    background-image: url("images1.jpeg");
+    width:100%;
+    background: #0b101a;
+    position: relative;
+    font-family: roboto, sans-serif;
+    align-items: center;
+}
+
+form {
+    background-image: url("images.jpeg");
+    text-align: center;
+}
+
+
+
+input {
+    display: inline-block;
+    text-align: center;
+    margin: 10px;
+}
+
+h1{
+	margin:20px;
+}
+
+.submit{
+	margin-bottom:15px;
+}
+
+
+
+
+
+div.create-asset, .read-asset
+{
+	margin:70px;
+	margin-left:600px;
+	width: 600px;
+	border-color: #FFFFFF #327CB5 #327CB5 #FFFFFF;
+  	border-radius: 20px 20px 20px 20px;
+  	border-style: solid;
+  	border-width: 3px;
+  	/*border-left:600px;
+  	border-left:gold;*/
+}
+
+input#Owner,#ID, #File
+{
+    /* border: none; */
+    /* background: none repeat scroll 0 0 #66A3D2;
+  border-color: #FFFFFF #327CB5 #327CB5 #FFFFFF;
+  border-radius: 10px 10px 10px 10px;
+  border-style: solid;
+  border-width: 1px; */
+  /* box-shadow: 1px 1px 3px #333333; */
+    /* background: transparent;
+    outline: none;
+    height: 30px;
+    color: #fff;
+    width: 250px;
+    text-transform: capitalize;
+    font-weight: 500;
+    transition: .5s; */
+    border: none;
+    border-bottom: 1px solid #aaa;
+    background: transparent;
+    padding: 2px;
+    border-radius: 10px 10px 10px 10px;
+    outline: none;
+    height: 30px;
+    color: #fff;
+    height: 40px;
+    width: 400px;
+    text-transform: capitalize;
+    font-weight: 500;
+    transition: .5s;
+}
+input#Owner:focus, #ID:focus
+{
+	width: 450px;
+	height: 44px;
+	background: black;
+	border-color: #FFFFFF #327CB5 #327CB5 #FFFFFF;
+  	border-radius: 20px 20px 20px 20px;
+  	border-style: solid;
+  	border-width: 1px;
+	color: white;
+}
+.submit{
+	
+	height: 40px;
+	width: 400px;
+	border-radius: 10px 10px 10px 10px;
+	background: blue
+}
+
+#File{
+	border-bottom: 1px;
+}
+        /* Add styling to the file list items */
+        .file-list li {
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        /* Add hover effect to expand the container on hover */
+        .file-list li:hover {
+            background-color: #f1f1f1;
+            color:black;
+        }
+
+        /* Add style to the expanded container */
+        .file-list li .file-info {
+            display: none;
+            font-size: 14px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            color:black;
+        }
+
+        /* Show the expanded container on hover */
+        .file-list li:hover .file-info {
+            display: block;
+        }
+
+        /* Remove the dot (bullet points) from ul */
+        .file-list ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Set the width of each list item container to 400px */
+        .file-list li .file-info {
+            width: 400px;
+            margin: 0 auto; /* Center the content horizontally */
+        }
+

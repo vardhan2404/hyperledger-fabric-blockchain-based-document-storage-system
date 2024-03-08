@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Asset Transfer</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+</head>
+<body>
+    <h1>Create Asset</h1>
+
+    <form action="/" method="POST" enctype="multipart/form-data">
+
+        <label for="Owner">Owner:</label>
+
+        <input type="text" id="Owner" name="Owner" required><br>
+
+        <label for="File">File:</label>
+
+        <input type="file" id="File" name="File" required><br>
+
+        <input type="submit" value="Create Asset">
+
+    </form>
+
+    <h1>Read Asset</h1>
+    <form action="/read" method="POST">
+        <label for="ID">ID:</label>
+        <input type="text" id="ID" name="ID" required><br>
+        <input type="submit" value="Read Asset">
+    </form>
+    <h2>Stored Files</h2>
+    <ul>
+        {{range .}}
+        <li>{{.}}</li>
+        {{end}}
+    </ul>
+</body>
+</html>
+

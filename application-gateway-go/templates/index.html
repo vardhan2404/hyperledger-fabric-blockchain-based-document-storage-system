@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Asset Transfer</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+</head>
+<body>
+    <div class="container">
+	    <div class="create-asset" id="create-asset">
+		    <h1>Create Asset</h1>
+		    <form action="/" method="POST" enctype="multipart/form-data">
+
+			<label for="Owner"></label>
+
+			<input type="text" id="Owner" name="Owner", placeholder="Enter the Name of Owner of File" required><br>
+
+			<label for="File">Select File:</label>
+
+			<input type="file" id="File" name="File" placeholder= "Files" required><br>
+
+			<input type="submit" value="Create Asset" class="submit">
+
+		    </form>
+	    </div>
+	    <div class="read-asset" id="read-asset">
+		    <h1>Read Asset</h1>
+		    <form action="/read" method="POST">
+			<label for="ID">ID:</label>
+			<input type="text" id="ID" name="ID" placeholder="Enter the ID of File" required><br>
+			<input type="submit" value="Read Asset" class = submit>
+		    </form>
+	    </div>
+     <div class="file-list" id="file-list">
+        <title>Stored Files</title>
+        <ul>
+            {{range .}}
+            <li onclick="copyToClipboard(this)">
+                {{.}}
+                <div class="file-info">Click to copy: {{.}}</div>
+            </li>
+            {{end}}
+        </ul>
+    </div>
+        <script>
+        function copyToClipboard(element) {
+            // Create a temporary input element to copy the text
+            const tempInput = document.createElement("input");
+            tempInput.value = element.textContent;
+            document.body.appendChild(tempInput);
+
+            // Select and copy the text
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            // Show a notification or perform any other action to indicate successful copy
+            console.log("Copied to clipboard: " + element.textContent);
+        }
+    </script>
+
+</body>
+</html>
+

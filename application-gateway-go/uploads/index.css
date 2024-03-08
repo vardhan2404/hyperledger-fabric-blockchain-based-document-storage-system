@@ -1,0 +1,55 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    color: white;
+    font-family: roboto, sans-serif;
+}
+
+body
+{
+    width:100%;
+    background: #0b101a;
+    position: relative;
+    font-family: roboto, sans-serif;
+}
+
+form {
+    background-image: url("images/login-background.jpg");
+    text-align: center;
+}
+
+input {
+    display: inline-block;
+    text-align: center;
+  }
+
+.Owner
+{
+    /* border: none; */
+    /* background: none repeat scroll 0 0 #66A3D2;
+  border-color: #FFFFFF #327CB5 #327CB5 #FFFFFF;
+  border-radius: 10px 10px 10px 10px;
+  border-style: solid;
+  border-width: 1px; */
+  /* box-shadow: 1px 1px 3px #333333; */
+    /* background: transparent;
+    outline: none;
+    height: 30px;
+    color: #fff;
+    width: 250px;
+    text-transform: capitalize;
+    font-weight: 500;
+    transition: .5s; */
+    border: none;
+    border-bottom: 1px solid #aaa;
+    background: transparent;
+    outline: none;
+    height: 30px;
+    color: #fff;
+    height: 40px;
+    width: 400px;
+    text-transform: capitalize;
+    font-weight: 500;
+    transition: .5s;
+}

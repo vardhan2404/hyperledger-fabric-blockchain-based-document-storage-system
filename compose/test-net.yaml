@@ -1,0 +1,312 @@
+version: "3.8"
+
+volumes:
+  orderer.isfcr.com:
+  peer0.rr.isfcr.com:
+  peer1.rr.isfcr.com:
+  peer2.rr.isfcr.com:
+  peer0.ec.isfcr.com:
+  peer1.ec.isfcr.com:
+
+networks:
+  test:
+    name: isfcr_test
+
+services:
+  orderer.isfcr.com:
+    container_name: orderer.isfcr.com
+    image: hyperledger/fabric-orderer:latest
+    labels:
+      service: hyperledger-fabric
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_LISTENPORT=7050
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_GENERAL_BOOTSTRAPMETHOD=none
+      - ORDERER_CHANNELPARTICIPATION_ENABLED=true
+      - ORDERER_ADMIN_TLS_ENABLED=true
+      - ORDERER_ADMIN_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_ADMIN_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_ADMIN_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_ADMIN_TLS_CLIENTROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_ADMIN_LISTENADDRESS=0.0.0.0:7053
+      - ORDERER_OPERATIONS_LISTENADDRESS=orderer.isfcr.com:9443
+      - ORDERER_METRICS_PROVIDER=prometheus
+
+    working_dir: /root
+    command: orderer
+    volumes:
+      - ../organizations/ordererOrganizations/isfcr.com/orderers/orderer.isfcr.com/msp:/var/hyperledger/orderer/msp
+      - ../organizations/ordererOrganizations/isfcr.com/orderers/orderer.isfcr.com/tls/:/var/hyperledger/orderer/tls
+      - orderer.isfcr.com:/var/hyperledger/production/orderer
+      
+
+    ports:
+      - 7050:7050
+      - 7053:7053
+      - 9443:9443
+
+    networks:
+      - test
+
+  peer0.rr.isfcr.com:
+    container_name: peer0.rr.isfcr.com
+    image: hyperledger/fabric-peer:latest
+    labels:
+      service: hyperledger-fabric
+
+    environment:
+      - FABRIC_CFG_PATH=/etc/hyperledger/peercfg
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+
+      #peer specific values
+      - CORE_PEER_ID=peer0.rr.isfcr.com
+      - CORE_PEER_ADDRESS=peer0.rr.isfcr.com:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.rr.isfcr.com:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.rr.isfcr.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.rr.isfcr.com:7051
+      - CORE_PEER_LOCALMSPID=rrMSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
+      - CORE_OPERATIONS_LISTENADDRESS=peer0.rr.isfcr.com:9444
+      - CORE_METRICS_PROVIDER=prometheus
+      - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer0rr"}
+      - CORE_CHAINCODE_EXECUTETIMEOUT=300s
+
+    volumes:
+      - ../organizations/peerOrganizations/rr.isfcr.com/peers/peer0.rr.isfcr.com:/etc/hyperledger/fabric
+      - peer0.rr.isfcr.com:/var/hyperledger/production
+      
+
+    working_dir: /root
+    command: peer node start
+
+    ports:
+      - 7051:7051
+      - 9444:9444
+
+    networks:
+      - test
+
+  peer1.rr.isfcr.com:
+    container_name: peer1.rr.isfcr.com
+    image: hyperledger/fabric-peer:latest
+    labels:
+      service: hyperledger-fabric
+
+    environment:
+      - FABRIC_CFG_PATH=/etc/hyperledger/peercfg
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+
+      #peer specific values
+      - CORE_PEER_ID=peer1.rr.isfcr.com
+      - CORE_PEER_ADDRESS=peer1.rr.isfcr.com:7057
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7057
+      - CORE_PEER_CHAINCODEADDRESS=peer1.rr.isfcr.com:7054
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7054
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.rr.isfcr.com:7057
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.rr.isfcr.com:7057
+      - CORE_PEER_LOCALMSPID=rrMSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
+      - CORE_OPERATIONS_LISTENADDRESS=peer1.rr.isfcr.com:9445
+      - CORE_METRICS_PROVIDER=prometheus
+      - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer1rr"}
+      - CORE_CHAINCODE_EXECUTETIMEOUT=300s
+
+    volumes:
+      - ../organizations/peerOrganizations/rr.isfcr.com/peers/peer1.rr.isfcr.com:/etc/hyperledger/fabric
+      - peer1.rr.isfcr.com:/var/hyperledger/production
+
+    working_dir: /root
+    command: peer node start
+
+    ports:
+      - 7057:7057
+      - 9445:9445
+
+    networks:
+      - test
+
+  peer2.rr.isfcr.com:
+    container_name: peer2.rr.isfcr.com
+    image: hyperledger/fabric-peer:latest
+    labels:
+      service: hyperledger-fabric
+
+    environment:
+      - FABRIC_CFG_PATH=/etc/hyperledger/peercfg
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+
+      #peer specific values
+      - CORE_PEER_ID=peer2.rr.isfcr.com
+      - CORE_PEER_ADDRESS=peer2.rr.isfcr.com:7055
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7055
+      - CORE_PEER_CHAINCODEADDRESS=peer2.rr.isfcr.com:7056
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7056
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer2.rr.isfcr.com:7055
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.rr.isfcr.com:7055
+      - CORE_PEER_LOCALMSPID=rrMSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
+      - CORE_OPERATIONS_LISTENADDRESS=peer2.rr.isfcr.com:9446
+      - CORE_METRICS_PROVIDER=prometheus
+      - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer2rr"}
+      - CORE_CHAINCODE_EXECUTETIMEOUT=300s
+
+    volumes:
+      - ../organizations/peerOrganizations/rr.isfcr.com/peers/peer2.rr.isfcr.com:/etc/hyperledger/fabric
+      - peer2.rr.isfcr.com:/var/hyperledger/production
+      
+
+    working_dir: /root
+    command: peer node start
+
+    ports:
+      - 7055:7055
+      - 9446:9446
+
+    networks:
+      - test
+
+  
+
+  #EC Peers
+  peer0.ec.isfcr.com:
+    container_name: peer0.ec.isfcr.com
+    image: hyperledger/fabric-peer:latest
+    labels:
+      service: hyperledger-fabric
+
+    environment:
+      - FABRIC_CFG_PATH=/etc/hyperledger/peercfg
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+
+      #peer specific values
+      - CORE_PEER_ID=peer0.ec.isfcr.com
+      - CORE_PEER_ADDRESS=peer0.ec.isfcr.com:9051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.ec.isfcr.com:9052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.ec.isfcr.com:9051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.ec.isfcr.com:9051
+      - CORE_PEER_LOCALMSPID=ecMSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
+      - CORE_OPERATIONS_LISTENADDRESS=peer0.ec.isfcr.com:9447
+      - CORE_METRICS_PROVIDER=prometheus
+      - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer0ec"}
+      - CORE_CHAINCODE_EXECUTETIMEOUT=300s
+
+    volumes:
+      - ../organizations/peerOrganizations/ec.isfcr.com/peers/peer0.ec.isfcr.com:/etc/hyperledger/fabric
+      - peer0.ec.isfcr.com:/var/hyperledger/production
+      
+
+    working_dir: /root
+    command: peer node start
+
+    ports:
+      - 9051:9051
+      - 9447:9447
+
+    networks:
+      - test
+
+  peer1.ec.isfcr.com:
+    container_name: peer1.ec.isfcr.com
+    image: hyperledger/fabric-peer:latest
+    labels:
+      service: hyperledger-fabric
+
+    environment:
+      - FABRIC_CFG_PATH=/etc/hyperledger/peercfg
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+
+      #peer specific values
+      - CORE_PEER_ID=peer1.ec.isfcr.com
+      - CORE_PEER_ADDRESS=peer1.ec.isfcr.com:9053
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9053
+      - CORE_PEER_CHAINCODEADDRESS=peer1.ec.isfcr.com:9054
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9054
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.ec.isfcr.com:9053
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.ec.isfcr.com:9053
+      - CORE_PEER_LOCALMSPID=ecMSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/fabric/msp
+      - CORE_OPERATIONS_LISTENADDRESS=peer1.ec.isfcr.com:9448
+      - CORE_METRICS_PROVIDER=prometheus
+      - CHAINCODE_AS_A_SERVICE_BUILDER_CONFIG={"peername":"peer1ec"}
+      - CORE_CHAINCODE_EXECUTETIMEOUT=300s
+
+    volumes:
+      - ../organizations/peerOrganizations/ec.isfcr.com/peers/peer1.ec.isfcr.com:/etc/hyperledger/fabric
+      - peer1.ec.isfcr.com:/var/hyperledger/production
+    
+
+    working_dir: /root
+    command: peer node start
+
+    ports:
+      - 9053:9053
+      - 9448:9448
+
+    networks:
+      - test
+
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools:latest
+    labels:
+      service: hyperledger-fabric
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - FABRIC_LOGGING_SPEC=INFO
+      - FABRIC_CFG_PATH=/etc/hyperledger/peercfg
+
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+      - ../organizations:/opt/gopath/src/github.com/hyperledger/fabric/peer/organizations
+      - ../scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      
+
+    depends_on:
+      - peer0.rr.isfcr.com
+      - peer1.rr.isfcr.com
+      - peer2.rr.isfcr.com
+      - peer0.ec.isfcr.com
+      - peer1.ec.isfcr.com
+
+    networks:
+      - test
